@@ -8,7 +8,7 @@
   <link rel="icon" href="img/logo_abai.ico" type="image/x-icon">
 </head>
 <body>
- <div class="container mt-5">
+  <div class="container mt-5">
     <h1 class="text-center mb-4">Calculadora de Salario</h1>
     <form id="salaryForm" class="row g-3">
       <div class="col-md-6">
@@ -54,8 +54,58 @@
       <p><strong>Salario Neto:</strong> <span id="netSalary">0</span></p>
     </div>
   </div>
-  <script src="script.js"></script>
-  <!-- Script de Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+function toggleIncapacityField() {
+  const incapacityApplicable = document.getElementById('incapacityApplicable').value;
+  const incapacityDaysField = document.getElementById('incapacityDaysField');
+  if (incapacityApplicable === 'si') {
+    incapacityDaysField.classList.remove('d-none');
+  } else {
+    incapacityDaysField.classList.add('d-none');
+  }
+}
+
+function toggleVariableField() {
+  const paymentType = document.getElementById('paymentType').value;
+  const variableField = document.getElementById('variableField');
+
+  if (paymentType === '15') {
+    variableField.classList.add('d-none');
+  } else {
+    variableField.classList.remove('d-none');
+  }
+}
+
+document.getElementById('calculateButton').addEventListener('click', function() {
+  const baseSalary = 1512000;
+  const nightHours = parseFloat(document.getElementById('nightHours').value) || 0;
+  const holidayHours = parseFloat(document.getElementById('holidayHours').value) || 0;
+  const variableApplicable = document.getElementById('variableApplicable').value;
+  const incapacityApplicable = document.getElementById('incapacityApplicable').value;
+  const incapacityDays = parseFloat(document.getElementById('incapacityDays').value) || 0;
+
+  let daysWorked = 15; // Base de días trabajados para ambos pagos
+  if (incapacityApplicable === 'si' && incapacityDays > 2) {
+    daysWorked -= incapacityDays; // Restar días de incapacidad a los días trabajados
+  }
+
+  const dailyRate = baseSalary / 30;
+  let transportAllowance = (200000 / 30) * daysWorked; // Ajuste según días trabajados
+  let extraLegalBonus = (300000 / 30) * daysWorked; // Ajuste según días trabajados
+  const holidayRate = ((baseSalary / 30) / 8) * 1.75;
+  let grossSalary = (dailyRate * daysWorked) + (nightHours * 2300) + (holidayHours * holidayRate);
+
+  if (variableApplicable === 'si' && document.getElementById('paymentType').value === '30') {
+    grossSalary += 140000;
+  }
+
+  const deduction = grossSalary * 0.08;
+  const netSalary = (grossSalary - deduction) + transportAllowance + extraLegalBonus;
+
+  document.getElementById('grossSalary').textContent = grossSalary.toFixed(2);
+  document.getElementById('netSalary').textContent = netSalary.toFixed(2);
+});
+  </script>  
 </body>
 </html>
