@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculo de Salario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="img/logo_abai.ico" type="image/x-icon">
+</head>
+<body>
+ <div class="container mt-5">
+    <h1 class="text-center mb-4">Calculadora de Salario</h1>
+    <form id="salaryForm" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Seleccione el Tipo de Pago:</label>
+        <select class="form-select" id="paymentType" onchange="toggleVariableField()">
+          <option value="15">Pago del 15</option>
+          <option value="30">Pago del 30</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="nightHours" class="form-label">Horas Nocturnas:</label>
+        <input type="number" class="form-control" id="nightHours" placeholder="Ingrese las horas nocturnas">
+      </div>
+      <div class="col-md-6">
+        <label for="holidayHours" class="form-label">Horas Festivas:</label>
+        <input type="number" class="form-control" id="holidayHours" placeholder="Ingrese las horas festivas">
+      </div>
+      <div class="col-md-6 d-none" id="variableField">
+        <label class="form-label">¿Aplica Variable?</label>
+        <select class="form-select" id="variableApplicable">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">¿Incapacidad?</label>
+        <select class="form-select" id="incapacityApplicable" onchange="toggleIncapacityField()">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+        </select>
+      </div>
+      <div class="col-md-6 d-none" id="incapacityDaysField">
+        <label for="incapacityDays" class="form-label">Días Incapacitado:</label>
+        <input type="number" class="form-control" id="incapacityDays" placeholder="Ingrese los días de incapacidad">
+      </div>
+      <div class="col-12 text-center">
+        <button type="button" id="calculateButton" class="btn btn-primary w-100">Calcular</button>
+      </div>
+    </form>
+    <div id="results" class="mt-4 p-3 bg-light border rounded">
+      <h2>Resultados:</h2>
+      <p><strong>Salario Bruto:</strong> <span id="grossSalary">0</span></p>
+      <p><strong>Salario Neto:</strong> <span id="netSalary">0</span></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <!-- Script de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
