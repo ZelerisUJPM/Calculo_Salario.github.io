@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center mb-4">Calculadora de Salario</h1>
+    <h1 class="text-center mb-4">Calculadora de Salarios</h1>
     <form id="salaryForm" class="row g-3">
       <div class="col-md-6">
         <label class="form-label">Seleccione el Tipo de Pago:</label>
@@ -86,13 +86,18 @@ document.getElementById('calculateButton').addEventListener('click', function() 
   const incapacityDays = parseFloat(document.getElementById('incapacityDays').value) || 0;
 
   let daysWorked = 15; // Base de días trabajados para ambos pagos
-  if (incapacityApplicable === 'si' && incapacityDays > 2) {
-    daysWorked -= incapacityDays; // Restar días de incapacidad a los días trabajados
+  let transportAllowance = (200000 / 30) * daysWorked; // Auxilio de transporte inicial
+  let extraLegalBonus = (300000 / 30) * daysWorked; // Bono extra legal inicial
+
+  if (incapacityApplicable === 'si') {
+    if (incapacityDays > 2) {
+      daysWorked -= incapacityDays; // Restar días trabajados solo si incapacidad es mayor a 2
+    }
+    transportAllowance -= (200000 / 30) * incapacityDays; // Ajustar auxilio de transporte según días de incapacidad
+    extraLegalBonus -= (300000 / 30) * incapacityDays; // Ajustar bono extra legal según días de incapacidad
   }
 
   const dailyRate = baseSalary / 30;
-  let transportAllowance = (200000 / 30) * daysWorked; // Ajuste según días trabajados
-  let extraLegalBonus = (300000 / 30) * daysWorked; // Ajuste según días trabajados
   const holidayRate = ((baseSalary / 30) / 8) * 1.75;
   let grossSalary = (dailyRate * daysWorked) + (nightHours * 2300) + (holidayHours * holidayRate);
 
